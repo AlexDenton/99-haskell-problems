@@ -1,15 +1,20 @@
-main = do
-    print $ last' [1, 2, 3, 4]
-    print $ last' ["first", "second", "last"]
-    print $ last'' [1, 2, 3]
+import Test.HUnit
+import Control.Exception
+import Test.HUnit.Tools
 
-last' :: [a] -> a
-last' [] = canNotCallLastOnEmptyList
-last' (x:[]) = x
+main = do
+    runTestTT shouldGetLastElement
+    runTestTT shouldErrorWithEmptyList
+
+last' [] = errorWithoutStackTrace canNotCallLastOnEmptyList
 last' (x:xs) = last xs
 
 last'' :: [a] -> a
-last'' [] = canNotCallLastOnEmptyList
+last'' [] = error canNotCallLastOnEmptyList
 last'' xs = xs !! ((length xs) - 1)
 
-canNotCallLastOnEmptyList = error "Can not call 'last' on an empty list"
+canNotCallLastOnEmptyList = "Can not call 'last' on an empty list"
+
+shouldGetLastElement = TestCase (assertEqual "List of integers" 4 (last' [1,2,3,4]))
+
+shouldErrorWithEmptyList = TestCase $ assertRaises "Empty list raises an error" (ErrorCall canNotCallLastOnEmptyList) $ evaluate (last' [] :: String)

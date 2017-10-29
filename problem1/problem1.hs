@@ -14,8 +14,12 @@ last'' xs = xs !! ((length xs) - 1)
 
 canNotCallLastOnEmptyList = "Can not call 'last' on an empty list"
 
-lastTests = TestList [shouldGetLastElement, shouldErrorWithEmptyList]
+lastTests = TestList [
+    shouldGetLastIntElement last',
+    shouldGetLastIntElement last'',
+    shouldErrorWithEmptyList]
 
-shouldGetLastElement = TestCase $ 4 @=? last' [1,2,3,4]
+shouldGetLastIntElement :: ([Int] -> Int) -> Test
+shouldGetLastIntElement f = TestCase $ 4 @=? f [1,2,3,4]
 
 shouldErrorWithEmptyList = TestCase $ assertRaises "Empty list raises an error" (ErrorCall canNotCallLastOnEmptyList) $ evaluate (last' [] :: String)

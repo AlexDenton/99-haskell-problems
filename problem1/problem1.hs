@@ -6,7 +6,7 @@ main = do
     runTestTT lastTests
 
 last' [] = errorWithoutStackTrace canNotCallLastOnEmptyList
-last' (x:xs) = last xs
+last' (_:xs) = last xs
 
 last'' :: [a] -> a
 last'' [] = errorWithoutStackTrace canNotCallLastOnEmptyList

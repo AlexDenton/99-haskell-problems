@@ -3,17 +3,18 @@ import Control.Exception
 import Test.HUnit.Tools
 
 main = do
-    runTestTT shouldGetLastElement
-    runTestTT shouldErrorWithEmptyList
+    runTestTT lastTests
 
 last' [] = errorWithoutStackTrace canNotCallLastOnEmptyList
 last' (x:xs) = last xs
 
 last'' :: [a] -> a
-last'' [] = error canNotCallLastOnEmptyList
+last'' [] = errorWithoutStackTrace canNotCallLastOnEmptyList
 last'' xs = xs !! ((length xs) - 1)
 
 canNotCallLastOnEmptyList = "Can not call 'last' on an empty list"
+
+lastTests = TestList [shouldGetLastElement, shouldErrorWithEmptyList]
 
 shouldGetLastElement = TestCase (assertEqual "List of integers" 4 (last' [1,2,3,4]))
 

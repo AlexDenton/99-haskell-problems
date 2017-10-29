@@ -16,6 +16,6 @@ canNotCallLastOnEmptyList = "Can not call 'last' on an empty list"
 
 lastTests = TestList [shouldGetLastElement, shouldErrorWithEmptyList]
 
-shouldGetLastElement = TestCase (assertEqual "List of integers" 4 (last' [1,2,3,4]))
+shouldGetLastElement = TestCase $ 4 @=? last' [1,2,3,4]
 
 shouldErrorWithEmptyList = TestCase $ assertRaises "Empty list raises an error" (ErrorCall canNotCallLastOnEmptyList) $ evaluate (last' [] :: String)
